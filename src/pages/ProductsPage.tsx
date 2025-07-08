@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar.tsx";
 import { Galery } from "../components/Galery.tsx";
+import Footer from "../components/Footer.tsx";
 
 export const ProductsPage = () => {
   return (
@@ -14,6 +15,7 @@ export const ProductsPage = () => {
         {" "}
         <Galery />
       </main>
+      <Footer />
 
       {/* Footer can be added here if needed */}
       {/* <footer className="bg-[#a86b3c] text-white py-6">
