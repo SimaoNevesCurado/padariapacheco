@@ -6,7 +6,7 @@ export const MapComponent = () => {
       </h2>
       <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d252.83888426041008!2d-8.832056870281402!3d39.89731146000295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-PT!2spt!4v1751976443011!5m2!1spt-PT!2spt"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d565.0596918328596!2d-8.83233154652159!3d39.89734760332754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-PT!2spt!4v1751976572582!5m2!1spt-PT!2spt"
           width="100%"
           height="450"
           style={{ border: 0 }}
