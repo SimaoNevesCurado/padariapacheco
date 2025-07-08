@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { bakeryProductsShowcase } from "../data/productsShowcase";
-
+import { Link } from "react-router-dom";
 interface Product {
   id: number;
   img: string;
@@ -47,13 +47,15 @@ export default function Showcase() {
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#a86b3c] mb-4 md:mb-6">
           O Nosso Menu
         </h1>
-        <button
-          className="text-sm md:text-base font-medium text-white bg-orange-300/90 hover:bg-orange-400 px-4 py-2 md:px-6 md:py-3 rounded-md transition-all duration-300 hover:scale-105"
-          aria-label="Ver menu completo"
-          onClick={() => alert("Em breve!")}
-        >
-          Ver Menu Completo
-        </button>
+
+        <Link to="/produtos">
+          <button
+            className="text-sm md:text-base font-medium text-white bg-orange-300/90 hover:bg-orange-400 px-4 py-2 md:px-6 md:py-3 rounded-md transition-all duration-300 hover:scale-105"
+            aria-label="Ver menu completo"
+          >
+            Ver Menu Completo
+          </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">

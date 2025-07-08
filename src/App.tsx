@@ -3,8 +3,12 @@ import Navbar from "./components/Navbar";
 import About from "./components/About";
 import ShowCase from "./components/ShowCase";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Navbar />

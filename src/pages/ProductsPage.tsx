@@ -1,10 +1,17 @@
 import Navbar from "../components/Navbar.tsx";
 import { Galery } from "../components/Galery.tsx";
 import Footer from "../components/Footer.tsx";
+import ScrollToTop from "react-scroll-to-top";
+import { useEffect } from "react";
 
 export const ProductsPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop smooth />
+
       {/* Navbar positioned at the top */}
       <header className="fixed top-0 w-full z-50">
         <Navbar />

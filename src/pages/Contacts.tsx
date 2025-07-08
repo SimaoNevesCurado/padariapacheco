@@ -3,10 +3,16 @@ import { ContactInfo } from "../components/ContactInfo";
 import { ContactForm } from "../components/ContactForm";
 import { MapComponent } from "../components/MapComponent";
 import Footer from "../components/Footer";
+import ScrollToTop from "react-scroll-to-top";
+import { useEffect } from "react";
 
 export const Contacts = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50 mt-36  md:mt-25">
+      <ScrollToTop />
       <Navbar />
 
       <section className="py-16 px-4 sm:px-6 md:px-10 lg:px-20 max-w-7xl mx-auto">

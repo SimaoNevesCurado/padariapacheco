@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Hero = () => {
   return (
     <section
@@ -10,9 +12,11 @@ const Hero = () => {
           <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg">
             Bem Vindo à Padaria Pacheco
           </h1>
-          <button className="text-sm md:text-base font-medium bg-orange-300/90 hover:bg-orange-400 px-6 py-3 rounded-md mt-6 transition-colors duration-300">
-            Fala connosco
-          </button>
+          <Link to="/contactos">
+            <button className="text-sm md:text-base font-medium bg-orange-300/90 hover:bg-orange-400 px-6 py-3 rounded-md mt-6 mb-8 transition-colors duration-300 ">
+              Fala connosco
+            </button>
+          </Link>
         </div>
       </div>
 
