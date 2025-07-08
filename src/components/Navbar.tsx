@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  // Define your navigation items
+  const navItems = [
+    { path: "/", name: "Início" },
+    { path: "/produtos", name: "Produtos" },
+    { path: "/contactos", name: "Contactos" },
+  ];
 
   return (
     <nav className="fixed top-0 w-full mb-20 bg-white shadow-lg z-20">
@@ -46,28 +54,24 @@ const Navbar: React.FC = () => {
         </div>
 
         <div
-          className={`md:flex items-center font-bold justify-center text-black gap-10 text-1xl ${isOpen ? "block" : "hidden"} md:block`}
+          className={`md:flex items-center font-bold justify-center text-black gap-10 text-1xl ${
+            isOpen ? "block" : "hidden"
+          } md:block`}
         >
-          <Link
-            to="/"
-            className="block py-2 px-3 md:p-0 text-orange-300 md:hover:text-orange-300"
-            aria-current="page"
-          >
-            Início
-          </Link>
-
-          <Link
-            to="/produtos"
-            className="block py-2 px-3 md:p-0 md:hover:text-orange-300"
-          >
-            Produtos
-          </Link>
-          <Link
-            to="/contactos"
-            className="block py-2 px-3 md:p-0 md:hover:text-orange-300"
-          >
-            Contactos
-          </Link>
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`block py-2 px-3 md:p-0 hover:text-orange-300 ${
+                location.pathname === item.path ? "text-orange-300" : ""
+              }`}
+              aria-current={
+                location.pathname === item.path ? "page" : undefined
+              }
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>
