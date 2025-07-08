@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
 import { bakeryProductsShowcase } from "../data/productsShowcase";
 
+interface Product {
+  id: number;
+  img: string;
+  alt: string;
+  name: string;
+  price?: number;
+  description?: string;
+}
+
 export default function Showcase() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -20,7 +29,7 @@ export default function Showcase() {
     };
   }, [isModalOpen]);
 
-  const openModal = (product) => {
+  const openModal = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
@@ -76,7 +85,7 @@ export default function Showcase() {
       </div>
 
       {/* Modal with responsive improvements */}
-      {isModalOpen && (
+      {isModalOpen && selectedProduct && (
         <div
           className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-opacity duration-300 ${
             isAnimating ? "bg-black/70 opacity-100" : "bg-black/0 opacity-0"
@@ -126,14 +135,14 @@ export default function Showcase() {
                   id="modal-title"
                   className="text-2xl sm:text-3xl font-bold text-[#a86b3c] mb-3 sm:mb-4"
                 >
-                  {selectedProduct?.name}
+                  {selectedProduct.name}
                 </h2>
                 <p className="text-gray-700 text-sm sm:text-base mb-3 sm:mb-4">
-                  {selectedProduct?.description ||
+                  {selectedProduct.description ||
                     "Delicioso produto de padaria feito com cuidado e tradição."}
                 </p>
                 <div className="mb-3 sm:mb-4">
-                  {selectedProduct?.price != null ? (
+                  {selectedProduct.price != null ? (
                     <span className="text-xl sm:text-2xl font-bold text-[#a86b3c]">
                       €{selectedProduct.price.toFixed(2)}
                     </span>
@@ -146,7 +155,7 @@ export default function Showcase() {
                 <button
                   className="w-full sm:w-auto mt-2 sm:mt-4 bg-[#a86b3c] hover:bg-[#8a5a34] text-white px-4 py-2 sm:px-6 sm:py-3 rounded-md transition-colors duration-300 text-sm sm:text-base"
                   onClick={() => {
-                    alert(`${selectedProduct?.name} adicionado ao carrinho!`);
+                    alert(`${selectedProduct.name} adicionado ao carrinho!`);
                     closeModal();
                   }}
                 >
