@@ -7,11 +7,18 @@ import { route } from 'ziggy-js';
 
 export function Hero() {
     const { site } = usePage<{ site: SiteInfo | null }>().props;
+    const heroBackground = site?.imagem_home
+        ? (site.imagem_home.startsWith('http://') ||
+          site.imagem_home.startsWith('https://') ||
+          site.imagem_home.startsWith('/')
+            ? site.imagem_home
+            : `/storage/${site.imagem_home}`)
+        : background;
 
     return (
         <section
             className="relative h-[500px] bg-cover bg-center px-4 sm:px-8 md:px-12 lg:px-20"
-            style={{ backgroundImage: `url(${site?.imagem_home})` }}
+            style={{ backgroundImage: `url(${heroBackground})` }}
 
         >
             <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-white text-center">
