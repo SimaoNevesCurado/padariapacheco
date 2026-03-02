@@ -1,21 +1,16 @@
 import { Link } from '@inertiajs/react'
-import { BriefcaseIcon, ClockIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { BriefcaseIcon, ClockIcon } from 'lucide-react'
 import { route } from 'ziggy-js'
-import { Button } from '@/components/ui/button'
 import { Vaga } from '@/types/Models/Vaga'
 import { Footer } from '@/components/padaria/Footer'
 import { Navbar } from '@/components/padaria/Navbar'
 
 type Props = {
     vagas: Vaga[]
-    canManage?: boolean
-    onDelete?: (id: number) => void
 }
 
 export default function VagasDisponiveis({
                                              vagas,
-                                             canManage = false,
-                                             onDelete,
                                          }: Props) {
     return (
         <>
