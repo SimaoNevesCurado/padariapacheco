@@ -9,7 +9,7 @@ import { initializeTheme } from './hooks/use-appearance';
 const appName = import.meta.env.VITE_APP_NAME || 'Padaria';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    title: () => appName,
     resolve: (name) =>
         resolvePageComponent(
             `./pages/${name}.tsx`,
