@@ -3,6 +3,7 @@
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
+use App\Http\Controllers\Settings\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,4 +26,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');
+
+    Route::get('register', [UserManagementController::class, 'create'])->name('register');
+    Route::post('register', [UserManagementController::class, 'store'])->name('register.store');
+    Route::delete('register/{user}', [UserManagementController::class, 'destroy'])->name('register.destroy');
 });

@@ -2,6 +2,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
+import { register } from '@/routes';
 import { edit } from '@/routes/profile';
 import { edit as editPassword } from '@/routes/user-password';
 import { type NavItem } from '@/types';
@@ -17,6 +18,11 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Palavras-passe',
         href: editPassword(),
+        icon: null,
+    },
+    {
+        title: 'Criar utilizador',
+        href: register(),
         icon: null,
     },
 ];
