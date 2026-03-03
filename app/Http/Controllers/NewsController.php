@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\ImagemNews;
+use App\Support\ImageCompressor;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
@@ -41,7 +42,10 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'content' => 'required|string',
-            'imagem' => 'required|image|max:10240',
+            'imagem' => 'required|image|max:3072',
+        ], [
+            'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
+            'imagem.max' => 'A imagem não pode exceder 3MB.',
         ]);
 
         $noticia = News::create([
@@ -70,7 +74,10 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'content' => 'required|string',
-            'imagem' => 'nullable|image|max:10240',
+            'imagem' => 'nullable|image|max:3072',
+        ], [
+            'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
+            'imagem.max' => 'A imagem não pode exceder 3MB.',
         ]);
 
         $noticia->update([
@@ -112,10 +119,11 @@ class NewsController extends Controller
      *
      * @return bool Retorna true se sucesso, false se erro
      */
-    private function handleImageUpload($file, int $newsId): bool
+    private function handleImageUpload(UploadedFile $file, int $newsId): bool
     {
         try {
-            $hash = hash_file('sha256', $file->getRealPath());
+            $processed = ImageCompressor::compressUploadedToWebp($file, 1600, 78);
+            $hash = $processed['hash'];
 
             // Verificar se já existe uma imagem com este hash
             $imagemExistente = ImagemNews::where('hash', $hash)->first();
@@ -128,13 +136,11 @@ class NewsController extends Controller
                     'hash' => $hash,
                 ]);
             } else {
-                // Upload nova imagem
-                $path = $file->store('noticias', 'public');
-
-                if (!$path) {
-                    Log::error('Falha ao fazer upload da imagem para storage');
-                    return false;
-                }
+                $path = ImageCompressor::storeCompressedWebp(
+                    $processed['binary'],
+                    'noticias',
+                    'public'
+                );
 
                 ImagemNews::create([
                     'news_id' => $newsId,

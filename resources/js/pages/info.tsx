@@ -41,7 +41,8 @@ export default function Info({ info }: Props) {
 
 
 
-    const { data, setData, patch, processing, errors } = useForm({
+    const { data, setData, patch, processing, errors, setError, clearErrors } =
+        useForm({
 
         /* HOME */
         texto_home: info?.texto_home ?? '',
@@ -58,11 +59,19 @@ export default function Info({ info }: Props) {
         horario_semana: info?.horario_semana ?? '08:00 - 18:00',
         sabado: info?.sabado ?? '08:00 - 18:00',
         horario_domingo: info?.horario_domingo ?? 'Fechado',
-    });
+        });
 
 
 
     function handleImagem(file: File | null) {
+        if (file && file.size > 3 * 1024 * 1024) {
+            setData('imagem_home', null);
+            setError('imagem_home', 'A imagem não pode exceder 3MB.');
+            setPreview(null);
+            return;
+        }
+
+        clearErrors('imagem_home');
 
         setData('imagem_home', file);
 
@@ -183,6 +192,15 @@ export default function Info({ info }: Props) {
                                     )
                                 }
                             />
+                            <p className="mt-1 text-xs text-gray-500">
+                                PNG, JPG ou WebP até 3MB.
+                            </p>
+
+                            {errors.imagem_home && (
+                                <p className="mt-1 text-sm text-red-500">
+                                    {errors.imagem_home}
+                                </p>
+                            )}
 
                             {preview && (
                                 <img

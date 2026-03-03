@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use App\Models\Imagem;
 use App\Models\Produto;
 use App\Models\Unidade;
+use App\Support\ImageCompressor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -38,8 +39,11 @@ class ProductController extends Controller
             'unidade_id' => 'required|exists:unidades,id',
             'categoria_id' => 'required|exists:categorias,id',
 
-            'imagem' => 'nullable|image|max:2048',
+            'imagem' => 'nullable|image|max:3072',
             'vitrine' => 'boolean', // Add this
+        ], [
+            'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
+            'imagem.max' => 'A imagem não pode exceder 3MB.',
         ]);
 
         if ($request->boolean('vitrine')) {
@@ -56,12 +60,14 @@ class ProductController extends Controller
 
 
         $hash = null;
+        $compressedBinary = null;
 
         if (request()->hasFile('imagem')) {
             $file = request()->file('imagem');
+            $processed = ImageCompressor::compressUploadedToWebp($file, 1600, 78);
 
-            // MD5 do ficheiro temporário
-            $hash = md5_file($file->getRealPath());
+            $hash = $processed['hash'];
+            $compressedBinary = $processed['binary'];
 
             // Verificar se já existe
             $imagemExistente = Imagem::where('hash', $hash)->first();
@@ -79,9 +85,11 @@ class ProductController extends Controller
         $produto = Produto::create($validated);
 
         if (request()->hasFile('imagem')) {
-            $path = request()
-                ->file('imagem')
-                ->store('produtos', 'public');
+            $path = ImageCompressor::storeCompressedWebp(
+                $compressedBinary,
+                'produtos',
+                'public'
+            );
 
             $produto->imagens()->create([
                 'caminho' => $path,
@@ -112,9 +120,12 @@ class ProductController extends Controller
 
             'categoria_id' => 'required|exists:categorias,id',
 
-            'imagem' => 'nullable|image|max:2048',
+            'imagem' => 'nullable|image|max:3072',
 
             'vitrine' => 'nullable|boolean',
+        ], [
+            'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
+            'imagem.max' => 'A imagem não pode exceder 3MB.',
         ]);
 
 
@@ -147,8 +158,9 @@ class ProductController extends Controller
         if ($request->hasFile('imagem')) {
 
             $file = $request->file('imagem');
+            $processed = ImageCompressor::compressUploadedToWebp($file, 1600, 78);
 
-            $hash = md5_file($file->getRealPath());
+            $hash = $processed['hash'];
 
 
             // Verificar duplicada (noutros produtos)
@@ -181,7 +193,11 @@ class ProductController extends Controller
 
 
             // Guardar nova
-            $path = $file->store('produtos', 'public');
+            $path = ImageCompressor::storeCompressedWebp(
+                $processed['binary'],
+                'produtos',
+                'public'
+            );
 
 
             $produto->imagens()->create([

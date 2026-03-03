@@ -76,6 +76,8 @@ export default function Products({ produtos, categorias, unidades }: Props) {
         data,
         errors,
         setData,
+        setError,
+        clearErrors,
         post,
         patch,
         delete: destroy,
@@ -95,6 +97,14 @@ export default function Products({ produtos, categorias, unidades }: Props) {
     });
 
     function handleImagem(file: File | null) {
+        if (file && file.size > 3 * 1024 * 1024) {
+            setData('imagem', null);
+            setError('imagem', 'A imagem não pode exceder 3MB.');
+            setPreview(null);
+            return;
+        }
+
+        clearErrors('imagem');
         setData('imagem', file);
 
         if (file) {
@@ -402,6 +412,9 @@ export default function Products({ produtos, categorias, unidades }: Props) {
                                     handleImagem(e.target.files?.[0] ?? null)
                                 }
                             />
+                            <p className="mt-1 text-xs text-gray-500">
+                                PNG, JPG ou WebP até 3MB.
+                            </p>
 
                             {preview && (
                                 <img

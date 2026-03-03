@@ -29,16 +29,25 @@ export default function FormNews({ noticia, type }: Props) {
         },
     ];
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, setError, clearErrors } =
+        useForm({
         title: noticia?.title ?? '',
         content: noticia?.content ?? '',
         categoria: noticia?.categoria ?? '',
         imagem: null as File | null,
-    });
+        });
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            if (file.size > 3 * 1024 * 1024) {
+                setData('imagem', null);
+                e.target.value = '';
+                setError('imagem', 'A imagem não pode exceder 3MB.');
+                return;
+            }
+
+            clearErrors('imagem');
             setData('imagem', file);
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -135,7 +144,7 @@ export default function FormNews({ noticia, type }: Props) {
                                         <span className="mt-2 text-sm font-medium text-gray-600">
                                             Clique para carregar imagem
                                         </span><span className="mt-1 text-xs text-gray-500">
-                                            PNG, JPG até 10MB
+                                            PNG, JPG ou WebP até 3MB
                                         </span>
                                         <input
                                             type="file"

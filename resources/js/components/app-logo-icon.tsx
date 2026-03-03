@@ -1,16 +1,16 @@
 import type { ImgHTMLAttributes } from 'react';
-import logo from "../../images/IconOnly.png"
+import logo from '../../images/IconOnly.png';
+import { cn } from '@/lib/utils';
 
 export default function AppLogoIcon(
-    props: ImgHTMLAttributes<HTMLImageElement>,
+    { className, ...props }: ImgHTMLAttributes<HTMLImageElement>,
 ) {
     return (
         <img
             src={logo}
             alt="Logo da Padaria"
-            className="bg-[#FAFAFA] w-auto h-28 object-contain"
+            className={cn('h-full w-full object-contain', className)}
             {...props}
         />
-
     );
 }
