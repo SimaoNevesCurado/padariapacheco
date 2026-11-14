@@ -37,7 +37,6 @@ class ImageCompressor
         $target = imagecreatetruecolor($targetWidth, $targetHeight);
 
         if (! $target) {
-            imagedestroy($source);
             throw new RuntimeException('Não foi possível preparar a imagem para compressão.');
         }
 
@@ -56,13 +55,11 @@ class ImageCompressor
             $sourceWidth,
             $sourceHeight
         );
+        unset($source);
 
         ob_start();
         $ok = imagewebp($target, null, $quality);
         $binary = (string) ob_get_clean();
-
-        imagedestroy($source);
-        imagedestroy($target);
 
         if (! $ok || $binary === '') {
             throw new RuntimeException('Falha ao comprimir imagem para WebP.');

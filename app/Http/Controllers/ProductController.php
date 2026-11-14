@@ -39,7 +39,7 @@ class ProductController extends Controller
             'unidade_id' => 'required|exists:unidades,id',
             'categoria_id' => 'required|exists:categorias,id',
 
-            'imagem' => 'nullable|image|max:3072',
+            'imagem' => 'nullable|image|mimes:jpeg,png,gif,webp|max:3072',
             'vitrine' => 'boolean', // Add this
         ], [
             'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
@@ -120,7 +120,7 @@ class ProductController extends Controller
 
             'categoria_id' => 'required|exists:categorias,id',
 
-            'imagem' => 'nullable|image|max:3072',
+            'imagem' => 'nullable|image|mimes:jpeg,png,gif,webp|max:3072',
 
             'vitrine' => 'nullable|boolean',
         ], [

@@ -24,7 +24,7 @@ class InfoController extends Controller
     {
         $data = $request->validate([
             'texto_home' => 'nullable|string',
-            'imagem_home' => 'nullable|image|max:3072',
+            'imagem_home' => 'nullable|image|mimes:jpeg,png,gif,webp|max:3072',
 
             'telefone' => 'nullable|string',
             'email' => 'nullable|email',
@@ -41,14 +41,10 @@ class InfoController extends Controller
 
         $info = Info::firstOrCreate([]);
 
+        $oldImage = $info->imagem_home;
+
         /* NOVA IMAGEM */
         if ($request->hasFile('imagem_home')) {
-
-            /* Apagar antiga se existir */
-            if ($info->imagem_home) {
-                Storage::disk('public')->delete($info->imagem_home);
-            }
-
             $processed = ImageCompressor::compressUploadedToWebp(
                 $request->file('imagem_home'),
                 1600,
@@ -68,6 +64,10 @@ class InfoController extends Controller
         }
 
         $info->update($data);
+
+        if ($request->hasFile('imagem_home') && $oldImage && $oldImage !== $info->imagem_home) {
+            Storage::disk('public')->delete($oldImage);
+        }
 
         return back()->with('success', 'Informações atualizadas');
     }

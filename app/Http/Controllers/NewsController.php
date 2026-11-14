@@ -42,7 +42,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'content' => 'required|string',
-            'imagem' => 'required|image|max:3072',
+            'imagem' => 'required|image|mimes:jpeg,png,gif,webp|max:3072',
         ], [
             'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
             'imagem.max' => 'A imagem não pode exceder 3MB.',
@@ -74,7 +74,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'content' => 'required|string',
-            'imagem' => 'nullable|image|max:3072',
+            'imagem' => 'nullable|image|mimes:jpeg,png,gif,webp|max:3072',
         ], [
             'imagem.image' => 'O ficheiro selecionado deve ser uma imagem válida.',
             'imagem.max' => 'A imagem não pode exceder 3MB.',
