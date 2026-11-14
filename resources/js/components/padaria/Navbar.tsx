@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import logo from "../../../images/Logo_padaria.png";
 
 export function Navbar() {
     const [open, setOpen] = useState(false);
     const [adminOpen, setAdminOpen] = useState(false);
+    const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
+    const adminHref = auth.user ? "/dashboard" : "/login";
 
     return (
         <nav className="fixed top-0 w-full bg-white shadow-lg z-20">
@@ -61,7 +63,7 @@ export function Navbar() {
 
 
                             <Link
-                                    href="/dashboard"
+                                    href={adminHref}
                                     className="block px-4 py-3 text-sm hover:bg-gray-100"
                                     onClick={() => setAdminOpen(false)}
                                 >
@@ -146,7 +148,7 @@ export function Navbar() {
                             <div className="ml-4 mt-2 flex flex-col space-y-2 text-sm">
 
                                 <Link
-                                    href="/dashboard"
+                                    href={adminHref}
                                     className="hover:text-orange-300"
                                     onClick={() => setOpen(false)}
                                 >
