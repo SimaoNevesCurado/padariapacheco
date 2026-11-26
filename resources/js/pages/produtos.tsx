@@ -8,7 +8,7 @@ interface Produto {
     id: number;
     nome: string;
     descricao: string;
-    preco: number;
+    preco: number | string;
     tipo_unidade: string;
     categoria: {
         id: number;
@@ -165,7 +165,7 @@ export default function Produtos({
                                                         </span>
 
                                                         <span className="text-[#a86b3c] font-extrabold text-xl">
-                                                            €{produto.preco.toFixed(2)}
+                                                            €{Number(produto.preco).toFixed(2)}
                                                         </span>
 
                                                         <span className="ml-1 text-xs text-gray-400">
@@ -252,7 +252,7 @@ export default function Produtos({
                             </div>
 
                             <div className="mb-4 text-[#a86b3c] font-extrabold text-2xl">
-                                €{selectedProduct.preco.toFixed(2)}
+                                €{Number(selectedProduct.preco).toFixed(2)}
                                 <span className="ml-1 text-sm text-gray-400">
                                     /{selectedProduct.tipo_unidade}
                                 </span>
